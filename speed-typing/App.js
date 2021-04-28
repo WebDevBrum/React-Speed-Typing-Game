@@ -1,27 +1,24 @@
+import React, {useState} from "react"
+
 /**
- * Challenge: build the basic structure of our game
+ * Challenge: Using hooks, track the state of the text in the textarea on every keystroke
+ * To verify it's working, you could just console.log the state on every change
  * 
- * 1. <h1> title at the top
- * 2. <textarea> for the box to type in 
- *      (tip: React normalizes <textarea /> to be more like <input />, 
- *      so it can be used as a self-closing element and uses the `value` property
- *      to set its contents)
- * 3. <h4> ti display the amount of time remaining
- * 4. <button> to start the game
- * 5. Another <h1> to display the word count
+ * https://scrimba.com/p/p7P5Hd/cW8Jdfy
  */
 
-import React, { Fragment } from "react"
-
 function App() {
+    const [text, setText] = useState("text here");
+    console.log(text);
+    
     return (
-        <Fragment>
-            <h1>Speed Typing Game</h1>
-            <textarea />
-            <h4>Time remaining</h4>
-            <button type="button">Start Game</button>
-            <h1>Word Count</h1>
-        </Fragment>
+        <div>
+            <h1>How fast do you type?</h1>
+            <textarea value={text} onChange={(e) => setText(e.target.value)}/>
+            <h4>Time remainaing: ???</h4>
+            <button>Start</button>
+            <h1>Word count: ???</h1>
+        </div>
     )
 }
 
