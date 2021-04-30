@@ -1,30 +1,41 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 
 /**
  * Challenge:
  * 
- * Create a function to calculate the number of separate words in the `text` state
- * For now, just console.log the word count when the button gets clicked to test it out.
+ * 1. Create state to hold the current value of the countdown timer.
+ *    Display this time in the "Time Remaining" header
+ * 
+ * 2. Set up an effect that runs every time the `timeRemaining` changes
+ *    The effect should wait 1 second, then decrement the `timeRemaining` by 1
+ * 
+ *    Hint: use `setTimeout` instead of `setInterval`. This will help you avoid
+ *    a lot of extra work.
+ * 
+ *    Warning: there will be a bug in this, but we'll tackle that next
  */
 
 function App() {
     const [text, setText] = useState("")
+    const [timeRemaining, setTimeRemaining] = useState(5)
     
     function handleChange(e) {
         const {value} = e.target
         setText(value)
     }
     
-    function wordCount(str) {
-        // str = str.replace(/(^\s*)|(\s*$)/gi,""); regex expression will remove the start and end spaces of the given string.
-        //  str = str.replace(/[ ]{2,}/gi," "); multiple spaces to a single space.
-        //  str = str.replace(/\n /,"\n"); exclude a new line with a start spacing.
-        //  console.log(str.split(' ').length);
-        //  return str.split(' ').length;
+    function calculateWordCount(text) {
         const wordsArr = text.trim().split(" ")
-        console.log(wordsArr.filter(word => word !== "").length);
-        return wordsArr.filter(word => word !== "").length;
+        return wordsArr.filter(word => word !== "").length
     }
+    
+    useEffect(() => {
+        if(timeRemaining > 0) {
+            setTimeout(() => {
+              setTimeRemaining(time => time -1);  
+            }, 1000)
+        }  
+    }, [timeRemaining])
     
     return (
         <div>
@@ -33,8 +44,8 @@ function App() {
                 onChange={handleChange}
                 value={text}
             />
-            <h4>Time remaining: ???</h4>
-            <button onClick={() => wordCount(text)} >Start</button>
+            <h4>Time remaining: {timeRemaining}</h4>
+            <button onClick={() => console.log(calculateWordCount(text))}>Start</button>
             <h1>Word count: ???</h1>
         </div>
     )
