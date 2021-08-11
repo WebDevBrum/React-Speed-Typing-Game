@@ -3,14 +3,15 @@ import React, {useState, useEffect} from "react"
 /**
  * Challenge:
  * 
- * Make it so clicking the Start button starts the timer instead of it starting on refresh
- * (Hint: use a new state variable to indicate if the game should be running or not)
+ * When the timer reaches 0, count the number of words the user typed in 
+ * and display it in the "Word count" section
  */
 
 function App() {
     const [text, setText] = useState("")
     const [timeRemaining, setTimeRemaining] = useState(2)
     const [isTimeRunning, setIsTimeRunning] = useState(false)
+    const [wordCount, setWordCount] = useState(0)
     
     function handleChange(e) {
         const {value} = e.target
@@ -29,6 +30,7 @@ function App() {
             }, 1000)
         } else if(timeRemaining === 0) {
             setIsTimeRunning(false)
+            setWordCount(calculateWordCount(text))
         }
     }, [timeRemaining, isTimeRunning])
     
@@ -41,7 +43,7 @@ function App() {
             />
             <h4>Time remaining: {timeRemaining}</h4>
             <button onClick={() => setIsTimeRunning(true)}>Start</button>
-            <h1>Word count: ???</h1>
+            <h1>Word count: {wordCount}</h1>
         </div>
     )
 }
