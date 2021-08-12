@@ -1,18 +1,8 @@
-import React, {useState, useEffect} from "react"
-
-/**
- * Challenge:
- * 
- * When the timer reaches 0, count the number of words the user typed in 
- * and display it in the "Word count" section
- * 
- * After the game ends, make it so the user can click the Start button again
- * to play a second time
- */
-
 function App() {
+    const STARTING_TIME = 5
+    
     const [text, setText] = useState("")
-    const [timeRemaining, setTimeRemaining] = useState(5)
+    const [timeRemaining, setTimeRemaining] = useState(STARTING_TIME)
     const [isTimeRunning, setIsTimeRunning] = useState(false)
     const [wordCount, setWordCount] = useState(0)
     
@@ -27,10 +17,14 @@ function App() {
     }
     
     function startGame() {
-        setTimeRemaining(5);
-        setText("");
-        setWordCount(0);
-        setIsTimeRunning(true);
+        setIsTimeRunning(true)
+        setTimeRemaining(STARTING_TIME)
+        setText("")
+    }
+    
+    function endGame() {
+        setIsTimeRunning(false)
+        setWordCount(calculateWordCount(text))
     }
     
     useEffect(() => {
@@ -39,8 +33,7 @@ function App() {
                 setTimeRemaining(time => time - 1)
             }, 1000)
         } else if(timeRemaining === 0) {
-            setIsTimeRunning(false)
-            setWordCount(calculateWordCount(text))
+            endGame()
         }
     }, [timeRemaining, isTimeRunning])
     
@@ -52,7 +45,7 @@ function App() {
                 value={text}
             />
             <h4>Time remaining: {timeRemaining}</h4>
-            <button onClick={() => startGame()}>Start</button>
+            <button onClick={startGame}>Start</button>
             <h1>Word count: {wordCount}</h1>
         </div>
     )
