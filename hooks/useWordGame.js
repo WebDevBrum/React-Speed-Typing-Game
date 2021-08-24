@@ -1,17 +1,8 @@
-mport React, {useState, useEffect, useRef} from "react"
+import {useState, useEffect, useRef} from "react"
 
-/**
- * Challenge:
- * 
- * Make the input box focus (DOM elements have a method called .focus()) 
- * immediately when the game starts
- */
-
-function App() {
-    const STARTING_TIME = 5
-    
+function useWordGame(startingTime = 10) {
     const [text, setText] = useState("")
-    const [timeRemaining, setTimeRemaining] = useState(STARTING_TIME)
+    const [timeRemaining, setTimeRemaining] = useState(startingTime)
     const [isTimeRunning, setIsTimeRunning] = useState(false)
     const [wordCount, setWordCount] = useState(0)
     const textBoxRef = useRef(null)
@@ -28,7 +19,7 @@ function App() {
     
     function startGame() {
         setIsTimeRunning(true)
-        setTimeRemaining(STARTING_TIME)
+        setTimeRemaining(startingTime)
         setText("")
         textBoxRef.current.disabled = false
         textBoxRef.current.focus()
@@ -49,25 +40,7 @@ function App() {
         }
     }, [timeRemaining, isTimeRunning])
     
-    return (
-        <div>
-            <h1>How fast do you type?</h1>
-            <textarea
-                ref={textBoxRef}
-                onChange={handleChange}
-                value={text}
-                disabled={!isTimeRunning}
-            />
-            <h4>Time remaining: {timeRemaining}</h4>
-            <button 
-                onClick={startGame}
-                disabled={isTimeRunning}
-            >
-                Start
-            </button>
-            <h1>Word count: {wordCount}</h1>
-        </div>
-    )
+    return {textBoxRef, handleChange, text, isTimeRunning, timeRemaining, startGame, wordCount}
 }
 
-export default App
+export default useWordGame
